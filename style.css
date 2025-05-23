@@ -73,16 +73,13 @@ ul {
 }
 
 /* Hero Section */
+/* Hero Section */
 .hero {
   position: relative;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
   overflow: hidden;
-  text-align: center;
 }
+
 .hero-video {
   position: absolute;
   top: 0;
@@ -93,43 +90,53 @@ ul {
   z-index: 0;
 }
 
-.hero-container2 {
+.hero-content {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* overlay effect */
-  color: #fff;
+  z-index: 1;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 20px;
-  text-align: center;
-  box-sizing: border-box;
+}
+
+.hero-container2 {
+  background: rgba(0, 0, 0, 0.6); /* dark overlay */
+  padding: 40px;
   border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
-.hero-content {
-  position: relative;
-  z-index: 1;
-}
-.hero h1 {
-  font-size: 3rem;
+
+.hero-container2 h1 {
+  font-size: 2.5rem;
   margin-bottom: 20px;
 }
-.hero p {
+
+.hero-container2 p {
   font-size: 1.2rem;
   margin-bottom: 20px;
 }
+
 .btn {
   display: inline-block;
   padding: 12px 24px;
-  background: orange;
+  background: rgb(12, 35, 244);
   color: white;
   border-radius: 5px;
   font-weight: bold;
   transition: background 0.3s;
 }
+
 .btn:hover {
-  background: darkorange;
+  background: rgb(26, 118, 238);
 }
 
 /* Sections */

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Products | Corporate Gifting</title>
+  <style>
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #ffffff;
+      color: #333;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Section: Products */
+    .products-section {
+      padding: 60px 20px;
+      background-color: #f9f9f9;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 40px;
+    }
+
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .product-card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      max-width: 300px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 20px;
+    }
+
+    .product-title {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+      color: #111;
+    }
+
+    .product-description {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    /* Footer (optional) */
+    footer {
+      padding: 30px 20px;
+      text-align: center;
+      background-color: #eee;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    @media (max-width: 768px) {
+      .product-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <h1 style="text-align:center; padding: 40px 0;">Corporate Gifting Solutions</h1>
+    </div>
+  </header>
+
+  <section id="products" class="products-section">
+    <div class="container">
+      <h2 class="section-title">Our Products</h2>
+      <p class="section-subtitle">Discover our range of premium corporate gifting solutions.</p>
+
+      <div class="product-grid">
+        <!-- Product 1 -->
+        <div class="product-card">
+          <img src="https://via.placeholder.com/300x200?text=Gift+Sets" alt="Premium Gift Sets" class="product-image" />
+          <div class="product-info">
+            <h3 class="product-title">Premium Gift Sets</h3>
+            <p class="product-description">Elegantly packaged gift sets customized with your corporate branding.</p>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card">
+          <img src="https://via.placeholder.com/300x200?text=Stationery" alt="Custom Stationery" class="product-image" />
+          <div class="product-info">
+            <h3 class="product-title">Custom Stationery</h3>
+            <p class="product-description">High-quality stationery including notebooks, pens, and desk accessories.</p>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card">
+          <img src="https://via.placeholder.com/300x200?text=Awards" alt="Awards and Recognition" class="product-image" />
+          <div class="product-info">
+            <h3 class="product-title">Awards & Recognition</h3>
+            <p class="product-description">Celebrate achievements with our custom-designed awards and recognition items.</p>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-card">
+          <img src="https://via.placeholder.com/300x200?text=Tech+Accessories" alt="Tech Accessories" class="product-image" />
+          <div class="product-info">
+            <h3 class="product-title">Tech Accessories</h3>
+            <p class="product-description">Modern tech accessories with your branding for the digital workplace.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Corporate Gifting Co. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
