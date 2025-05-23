@@ -246,7 +246,8 @@
     }
 
     .about {
-      background: #f8f9fa;
+      background: #0b0f4b;
+      color: #eee
     }
 
     .about-content {
@@ -255,9 +256,17 @@
       text-align: center;
     }
 
+    .about-image{
+      flex: 300px;
+      max-width: 400px; 
+      width: 100%; 
+      border-radius: 12px; 
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
     .about-tagline {
       font-size: 1.4rem;
-      color: #666;
+      color: #0d81f5;
       margin-bottom: 30px;
       font-style: italic;
     }
