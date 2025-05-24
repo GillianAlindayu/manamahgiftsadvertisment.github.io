@@ -114,7 +114,7 @@ body {
   display: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #333;
+  color: #ffffff;
 }
 
 /* Hero Section */
@@ -150,7 +150,7 @@ body {
 
 .hero-content {
   text-align: center;
-  color: white, blue;
+  color: rgb(87, 196, 255); 
   z-index: 1;
 }
 
@@ -230,7 +230,7 @@ body {
 .section-title {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  color: #2c3e50;
+  color: #dbedff;
   position: relative;
 }
 
@@ -287,9 +287,9 @@ body {
   border-radius: 20px;
   padding: 2rem;
   text-align: center;
-  box-shadow: 0 10px 30px rgb(255, 255, 255);
+  box-shadow: 0 10px 30px rgb(72, 102, 225);
   transition: all 0.3s ease;
-  border: 1px solid #ffffff;
+  border: 1px solid #97d2ff;
 }
 
 .product-card:hover {

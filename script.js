@@ -202,7 +202,7 @@ window.addEventListener('scroll', () => {
   const scrollY = window.scrollY;
 
   if (navbar) {
-    navbar.style.background = scrollY > 100 ? 'rgba(255,255,255,0.98)' : 'rgba(255,255,255,0.95)';
+    navbar.style.background = scrollY > 100 ? 'rgba(7, 6, 49, 0.93)' : 'rgba(255,255,255,0.95)';
     navbar.style.boxShadow = scrollY > 100 ? '0 2px 25px rgba(0,0,0,0.15)' : '0 2px 20px rgba(0,0,0,0.1)';
   }
 
