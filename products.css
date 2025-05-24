@@ -163,6 +163,7 @@ header::before {
 
 .hero-image img {
   filter: brightness(0.9) contrast(1.1);
+  width: 100%;
 }
 
 header h1 {
