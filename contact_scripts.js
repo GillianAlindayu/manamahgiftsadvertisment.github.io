@@ -1,46 +1,10 @@
-// DOM Content Loaded Event
-document.addEventListener('DOMContentLoaded', function() {
-    initializeApp();
-});
-
-// Initialize Application
-function initializeApp() {
-    setupEventListeners();
-    setupFormValidation();
-    setActiveTab('contact'); // Set default tab
+// Navigation Menu Toggle
+function toggleMenu() {
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.toggle('active');
 }
 
-// Setup Event Listeners
-function setupEventListeners() {
-    // Tab switching
-    const tabButtons = document.querySelectorAll('.tab-button');
-    tabButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const tabName = this.textContent.toLowerCase().includes('contact') ? 'contact' : 'login';
-            openTab(tabName);
-        });
-    });
-
-    // Form submissions
-    const contactForm = document.getElementById('contactForm');
-    const loginForm = document.getElementById('loginForm');
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', handleContactSubmit);
-    }
-    
-    if (loginForm) {
-        loginForm.addEventListener('submit', handleLoginSubmit);
-    }
-
-    // Mobile menu toggle
-    setupMobileMenu();
-    
-    // Form input enhancements
-    setupFormInputs();
-}
-
-// Tab Management
+// Tab Functionality
 function openTab(tabName) {
     // Hide all tab contents
     const tabContents = document.querySelectorAll('.tab-content');
@@ -55,355 +19,326 @@ function openTab(tabName) {
     });
     
     // Show selected tab content
-    const selectedTab = document.getElementById(tabName);
-    if (selectedTab) {
-        selectedTab.classList.add('active');
-    }
+    document.getElementById(tabName).classList.add('active');
     
     // Add active class to clicked button
-    const activeButton = document.querySelector(`[onclick="openTab('${tabName}')"]`) || 
-                        Array.from(tabButtons).find(btn => 
-                            btn.textContent.toLowerCase().includes(tabName)
-                        );
-    if (activeButton) {
-        activeButton.classList.add('active');
-    }
+    event.target.classList.add('active');
 }
 
-function setActiveTab(tabName) {
-    openTab(tabName);
-}
-
-// Mobile Menu Toggle
-function toggleMenu() {
-    const navLinks = document.getElementById('navLinks');
-    if (navLinks) {
-        navLinks.classList.toggle('active');
-    }
-}
-
-function setupMobileMenu() {
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(event) {
-        const navbar = document.querySelector('.navbar');
-        const navLinks = document.getElementById('navLinks');
-        const burger = document.querySelector('.burger');
-        
-        if (navLinks && navLinks.classList.contains('active')) {
-            if (!navbar.contains(event.target)) {
-                navLinks.classList.remove('active');
+// Form Validation and Submission
+document.addEventListener('DOMContentLoaded', function() {
+    // Contact Form Handler
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                company: document.getElementById('company').value.trim(),
+                subject: document.getElementById('subject').value.trim(),
+                message: document.getElementById('message').value.trim()
+            };
+            
+            // Validate required fields
+            if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+                showNotification('Please fill in all required fields.', 'error');
+                return;
             }
-        }
-    });
-    
-    // Close mobile menu when clicking on nav links
-    const navButtons = document.querySelectorAll('.nav-button');
-    navButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const navLinks = document.getElementById('navLinks');
-            if (navLinks && navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
+            
+            // Validate email format
+            if (!isValidEmail(formData.email)) {
+                showNotification('Please enter a valid email address.', 'error');
+                return;
             }
+            
+            // Simulate form submission
+            submitContactForm(formData);
         });
-    });
-}
-
-// Form Validation and Enhancement
-function setupFormValidation() {
-    // Real-time validation for email fields
-    const emailInputs = document.querySelectorAll('input[type="email"]');
-    emailInputs.forEach(input => {
-        input.addEventListener('blur', validateEmail);
-        input.addEventListener('input', clearValidationMessage);
-    });
+    }
     
-    // Real-time validation for required fields
-    const requiredInputs = document.querySelectorAll('input[required], textarea[required]');
-    requiredInputs.forEach(input => {
-        input.addEventListener('blur', validateRequired);
-        input.addEventListener('input', clearValidationMessage);
-    });
-}
-
-function setupFormInputs() {
-    // Add floating label effect
-    const formControls = document.querySelectorAll('.form-control');
-    formControls.forEach(input => {
-        // Focus and blur effects
-        input.addEventListener('focus', function() {
-            this.parentElement.classList.add('focused');
-        });
-        
-        input.addEventListener('blur', function() {
-            if (!this.value) {
-                this.parentElement.classList.remove('focused');
+    // Login Form Handler
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get login data
+            const loginData = {
+                email: document.getElementById('loginEmail').value.trim(),
+                password: document.getElementById('loginPassword').value
+            };
+            
+            // Validate required fields
+            if (!loginData.email || !loginData.password) {
+                showNotification('Please enter both email and password.', 'error');
+                return;
             }
+            
+            // Validate email format
+            if (!isValidEmail(loginData.email)) {
+                showNotification('Please enter a valid email address.', 'error');
+                return;
+            }
+            
+            // Simulate login
+            submitLogin(loginData);
         });
-        
-        // Initialize focused state for pre-filled inputs
-        if (input.value) {
-            input.parentElement.classList.add('focused');
-        }
-    });
-}
+    }
+});
 
-// Form Submission Handlers
-function handleContactSubmit(event) {
-    event.preventDefault();
-    
-    const form = event.target;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
-    
-    // Validate form
-    if (!validateContactForm(data)) {
-        return;
-    }
-    
-    // Show loading state
-    const submitBtn = form.querySelector('.submit-btn');
-    const originalText = submitBtn.textContent;
-    setButtonLoading(submitBtn, true);
-    
-    // Simulate form submission (replace with actual API call)
-    setTimeout(() => {
-        // Reset form and show success message
-        form.reset();
-        showMessage('Thank you for your message! We\'ll get back to you soon.', 'success');
-        setButtonLoading(submitBtn, false, originalText);
-        
-        // In a real application, you would make an API call here:
-        // submitContactForm(data).then(response => { ... }).catch(error => { ... });
-    }, 2000);
-}
-
-function handleLoginSubmit(event) {
-    event.preventDefault();
-    
-    const form = event.target;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
-    
-    // Validate form
-    if (!validateLoginForm(data)) {
-        return;
-    }
-    
-    // Show loading state
-    const submitBtn = form.querySelector('.submit-btn');
-    const originalText = submitBtn.textContent;
-    setButtonLoading(submitBtn, true);
-    
-    // Simulate login attempt (replace with actual authentication)
-    setTimeout(() => {
-        // For demo purposes, show error message
-        showMessage('Invalid credentials. Please check your email and password.', 'error');
-        setButtonLoading(submitBtn, false, originalText);
-        
-        // In a real application, you would make an API call here:
-        // authenticateUser(data).then(response => { ... }).catch(error => { ... });
-    }, 2000);
-}
-
-// Form Validation Functions
-function validateContactForm(data) {
-    let isValid = true;
-    
-    // Validate required fields
-    const requiredFields = ['name', 'email', 'subject', 'message'];
-    requiredFields.forEach(field => {
-        if (!data[field] || data[field].trim() === '') {
-            showFieldError(field, `${capitalizeFirst(field)} is required`);
-            isValid = false;
-        }
-    });
-    
-    // Validate email format
-    if (data.email && !isValidEmail(data.email)) {
-        showFieldError('email', 'Please enter a valid email address');
-        isValid = false;
-    }
-    
-    return isValid;
-}
-
-function validateLoginForm(data) {
-    let isValid = true;
-    
-    // Validate required fields
-    if (!data.loginEmail || data.loginEmail.trim() === '') {
-        showFieldError('loginEmail', 'Email is required');
-        isValid = false;
-    }
-    
-    if (!data.loginPassword || data.loginPassword.trim() === '') {
-        showFieldError('loginPassword', 'Password is required');
-        isValid = false;
-    }
-    
-    // Validate email format
-    if (data.loginEmail && !isValidEmail(data.loginEmail)) {
-        showFieldError('loginEmail', 'Please enter a valid email address');
-        isValid = false;
-    }
-    
-    return isValid;
-}
-
-function validateEmail(event) {
-    const email = event.target.value;
-    if (email && !isValidEmail(email)) {
-        showFieldError(event.target.id, 'Please enter a valid email address');
-    }
-}
-
-function validateRequired(event) {
-    const value = event.target.value.trim();
-    if (!value) {
-        const fieldName = event.target.placeholder || 'This field';
-        showFieldError(event.target.id, `${fieldName} is required`);
-    }
-}
-
-// Utility Functions
+// Email validation function
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
 
-function capitalizeFirst(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function showMessage(message, type = 'success') {
-    // Remove existing messages
-    const existingMessages = document.querySelectorAll('.message');
-    existingMessages.forEach(msg => msg.remove());
+// Contact form submission simulation
+function submitContactForm(formData) {
+    const submitBtn = document.querySelector('#contactForm .submit-btn');
+    const originalText = submitBtn.textContent;
     
-    // Create new message element
-    const messageEl = document.createElement('div');
-    messageEl.className = `message ${type}`;
-    messageEl.textContent = message;
+    // Show loading state
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
     
-    // Insert message at the top of active form
-    const activeTab = document.querySelector('.tab-content.active');
-    const formSection = activeTab.querySelector('.form-section');
-    formSection.insertBefore(messageEl, formSection.firstChild);
-    
-    // Show message with animation
+    // Simulate API call
     setTimeout(() => {
-        messageEl.classList.add('show');
-    }, 100);
-    
-    // Auto-hide success messages after 5 seconds
-    if (type === 'success') {
-        setTimeout(() => {
-            if (messageEl.parentNode) {
-                messageEl.remove();
-            }
-        }, 5000);
-    }
+        // Reset button
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        
+        // Show success message
+        showNotification('Thank you for your message! We\'ll get back to you soon.', 'success');
+        
+        // Reset form
+        document.getElementById('contactForm').reset();
+        
+        // In a real application, you would send the data to your server:
+        // fetch('/api/contact', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(formData)
+        // })
+        
+    }, 2000);
 }
 
-function showFieldError(fieldId, errorMessage) {
-    const field = document.getElementById(fieldId);
-    if (!field) return;
+// Login submission simulation
+function submitLogin(loginData) {
+    const submitBtn = document.querySelector('#loginForm .submit-btn');
+    const originalText = submitBtn.textContent;
     
-    // Remove existing error styling and messages
-    clearFieldError(fieldId);
+    // Show loading state
+    submitBtn.textContent = 'Logging in...';
+    submitBtn.disabled = true;
     
-    // Add error styling
-    field.classList.add('error');
-    field.style.borderColor = '#dc3545';
-    field.style.backgroundColor = '#fff5f5';
+    // Simulate API call
+    setTimeout(() => {
+        // Reset button
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        
+        // Simulate login response
+        if (loginData.email === 'demo@almanamahgifts.com' && loginData.password === 'demo123') {
+            showNotification('Login successful! Redirecting to dashboard...', 'success');
+            
+            // In a real application, redirect to dashboard
+            setTimeout(() => {
+                // window.location.href = '/dashboard';
+                showNotification('Demo mode: Dashboard redirect disabled', 'info');
+            }, 1500);
+        } else {
+            showNotification('Invalid email or password. Please try again.', 'error');
+        }
+        
+        // In a real application, you would authenticate with your server:
+        // fetch('/api/login', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(loginData)
+        // })
+        
+    }, 1500);
+}
+
+// Notification system
+function showNotification(message, type = 'info') {
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(notification => notification.remove());
     
-    // Create and show error message
-    const errorEl = document.createElement('div');
-    errorEl.className = 'field-error';
-    errorEl.style.cssText = `
-        color: #dc3545;
-        font-size: 0.85rem;
-        margin-top: 0.25rem;
-        margin-bottom: 0.5rem;
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <span>${message}</span>
+        <button class="notification-close" onclick="this.parentElement.remove()">×</button>
     `;
-    errorEl.textContent = errorMessage;
     
-    // Insert error message after the field
-    field.parentNode.insertBefore(errorEl, field.nextSibling);
-}
-
-function clearFieldError(fieldId) {
-    const field = document.getElementById(fieldId);
-    if (!field) return;
-    
-    // Remove error styling
-    field.classList.remove('error');
-    field.style.borderColor = '';
-    field.style.backgroundColor = '';
-    
-    // Remove error message
-    const errorEl = field.parentNode.querySelector('.field-error');
-    if (errorEl) {
-        errorEl.remove();
-    }
-}
-
-function clearValidationMessage(event) {
-    clearFieldError(event.target.id);
-}
-
-function setButtonLoading(button, loading, originalText = 'Submit') {
-    if (loading) {
-        button.disabled = true;
-        button.innerHTML = `
-            <span style="display: inline-flex; align-items: center; gap: 0.5rem;">
-                <span style="width: 16px; height: 16px; border: 2px solid #ffffff40; border-top: 2px solid #ffffff; border-radius: 50%; animation: spin 1s linear infinite;"></span>
-                Sending...
-            </span>
-        `;
-        
-        // Add spinner animation if not already added
-        if (!document.querySelector('#spinner-styles')) {
-            const style = document.createElement('style');
-            style.id = 'spinner-styles';
-            style.textContent = `
-                @keyframes spin {
-                    0% { transform: rotate(0deg); }
-                    100% { transform: rotate(360deg); }
+    // Add notification styles if not already present
+    if (!document.querySelector('#notification-styles')) {
+        const styles = document.createElement('style');
+        styles.id = 'notification-styles';
+        styles.textContent = `
+            .notification {
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                color: white;
+                font-weight: 500;
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                max-width: 400px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                animation: slideIn 0.3s ease;
+            }
+            
+            .notification-success {
+                background: linear-gradient(135deg, #28a745, #20c997);
+            }
+            
+            .notification-error {
+                background: linear-gradient(135deg, #dc3545, #e74c3c);
+            }
+            
+            .notification-info {
+                background: linear-gradient(135deg, #17a2b8, #20c997);
+            }
+            
+            .notification-close {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.2rem;
+                cursor: pointer;
+                padding: 0;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
                 }
-            `;
-            document.head.appendChild(style);
-        }
-    } else {
-        button.disabled = false;
-        button.textContent = originalText;
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .notification {
+                    right: 10px;
+                    left: 10px;
+                    max-width: none;
+                }
+            }
+        `;
+        document.head.appendChild(styles);
     }
+    
+    // Add notification to page
+    document.body.appendChild(notification);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.style.animation = 'slideIn 0.3s ease reverse';
+            setTimeout(() => notification.remove(), 300);
+        }
+    }, 5000);
 }
 
-// Smooth scrolling for anchor links
-document.addEventListener('click', function(event) {
-    if (event.target.matches('a[href^="#"]')) {
-        event.preventDefault();
-        const targetId = event.target.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
+// Form field animations
+document.addEventListener('DOMContentLoaded', function() {
+    const formControls = document.querySelectorAll('.form-control');
+    
+    formControls.forEach(control => {
+        control.addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
         
-        if (targetElement) {
-            targetElement.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+        control.addEventListener('blur', function() {
+            if (!this.value.trim()) {
+                this.parentElement.classList.remove('focused');
+            }
+        });
+        
+        // Check if field has value on page load
+        if (control.value.trim()) {
+            control.parentElement.classList.add('focused');
+        }
+    });
+});
+
+// Smooth scrolling for navigation links
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.nav-button[href^="#"]');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href.startsWith('#') && href !== '#') {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+    });
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(e) {
+    const navLinks = document.getElementById('navLinks');
+    const burger = document.querySelector('.burger');
+    
+    if (navLinks && navLinks.classList.contains('active')) {
+        if (!navLinks.contains(e.target) && !burger.contains(e.target)) {
+            navLinks.classList.remove('active');
         }
     }
 });
 
-// Handle window resize for mobile menu
-window.addEventListener('resize', function() {
-    const navLinks = document.getElementById('navLinks');
-    if (window.innerWidth > 768 && navLinks) {
-        navLinks.classList.remove('active');
+// Add loading animation to buttons
+function addButtonLoadingState(button, loadingText = 'Loading...') {
+    const originalText = button.textContent;
+    const originalDisabled = button.disabled;
+    
+    button.textContent = loadingText;
+    button.disabled = true;
+    button.classList.add('loading');
+    
+    return function resetButton() {
+        button.textContent = originalText;
+        button.disabled = originalDisabled;
+        button.classList.remove('loading');
+    };
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    // Add any initialization code here
+    console.log('Al Manamah Gifts Contact Page Loaded');
+    
+    // Set default tab if none is active
+    const activeTab = document.querySelector('.tab-content.active');
+    if (!activeTab) {
+        openTab('contact');
     }
 });
-
-// Export functions for global access (if needed)
-window.openTab = openTab;
-window.toggleMenu = toggleMenu;
