@@ -76,8 +76,7 @@ body {
 }
 
 .nav-links {
-  background: rgba(38, 25, 81, 0.823);
-  display: flex;
+    display: flex;
   list-style: none;
   gap: 2rem;
   align-items: center;
@@ -85,7 +84,7 @@ body {
 
 .nav-links a {
   text-decoration: none;
-  color: #c19dff;
+  color: #7c73ff;
   font-weight: 500;
   transition: all 0.3s ease;
   position: relative;
@@ -114,7 +113,7 @@ body {
   display: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #ffffff;
+  color: #a1e0ff;
 }
 
 /* Hero Section */
@@ -271,7 +270,7 @@ body {
 .products .container > p {
   text-align: center;
   font-size: 1.2rem;
-  color: #ffe9e9;
+  color: #96b9ff;
   margin-bottom: 3rem;
 }
 
@@ -338,7 +337,7 @@ body {
 }
 
 .services .section-title::after {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(4, 13, 71, 0.419);
   left: 50%;
   transform: translateX(-50%);
 }
